@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<link rel="stylesheet" type="text/css" href="/static/bootstrap-3.0.2/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="/static/bootstrap-3.0.2/css/bootstrap-editable.css"/>
+	<link rel="stylesheet" type="text/css" href="/static/dataTables.bootstrap.css" />
+	<title>HDS-Kill</title>
+  </head>
+  <body>
+	<div id="navbar"></div>
+	<div class="container">
+	  <div class="page-header">
+		<h1>Kill</h1>
+	  </div>
+	  <div class="panel panel-default">
+		<form class="form-horizontal" style="padding-top:15px">
+		  <div id="query-form-groups"></div>
+		  <div class="form-group">
+			<div class="col-sm-offset-2 col-sm-9">
+			  <button type="button" class="btn btn-default" id="button-send">Send</button>
+			</div>
+		  </div>
+		</form>
+	  </div>
+	  <hr />
+	  <div class="alert alert-danger" id="alert-panel" style="display:none">
+		<!-- &times means the multiplication sign -->
+		<button type="button" class="close" onclick="$('#alert-panel').hide();">&times;</button>
+		<div class="alert-body" id="alert-panel-body"></div>
+	  </div>
+	  <div id="result-panel"></div>
+	</div>
+
+	<script type="text/x-dust-template" id="tmpl-response">
+	  <table class="table table-bordered table-striped">
+				{#task}
+					<tr><th>id:</th><td>{id}</td></tr>
+					<tr><th>redirectfrom:</th><td>{redirectfrom}</td></tr>
+					<tr><th>servername:</th><td>{servername}</td></tr>
+					<tr><th>clientname:</th><td>{clientname}</td></tr>
+					<tr><th>from:</th><td>{from}</td></tr>
+					<tr><th>to:</th><td>{to}</td></tr>
+					<tr><th>state:</th><td>{state}</td></tr>
+					<tr><th>progress:</th><td>{progress}</td></tr>
+					<tr><th>startTime:</th><td>{startTime}</td></tr>
+					<tr><th>elapsed:</th><td>{elapsed}</td></tr>
+					<tr><th>expectedsize:</th><td>{expectedsize}</td></tr>
+					<tr><th>transferredsize:</th><td>{transferredsize}</td></tr>
+				{/task}
+			</table>
+	</script>
+
+	<script type="text/javascript" src="/static/jquery-1.10.2.min.js">
+	</script><script type="text/javascript" src="/static/jquery.dataTables.min.js">
+	</script><script type="text/javascript" src="/static/bootstrap-3.0.2/js/bootstrap.min.js">
+	</script><script type="text/javascript" src="/static/bootstrap-3.0.2/js/bootstrap-editable.min.js">
+	</script><script type="text/javascript" src="/static/dataTables.bootstrap.js">
+	</script><script type="text/javascript" src="/static/dust-full-2.0.0.min.js">
+	</script><script type="text/javascript" src="/static/dust-helpers-1.1.1.min.js">
+	</script><script type="text/javascript" src="/static/dfs-dust.js">
+	</script><script type="text/javascript" src="/static/json-bignum.js">
+	</script><script type="text/javascript" src="/static/rest-csrf.js">
+	</script><script type="text/javascript" src="common.js">
+	</script><script type="text/javascript" src="kill.js">
+	</script><script type="text/javascript" src="/static/moment.min.js">
+	</script>
+  </body>
+</html>

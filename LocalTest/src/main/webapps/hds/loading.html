@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<link rel="stylesheet" type="text/css" href="/static/bootstrap-3.0.2/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="/static/bootstrap-3.0.2/css/bootstrap-editable.css"/>
+	<link rel="stylesheet" type="text/css" href="/static/dataTables.bootstrap.css" />
+	<link rel="stylesheet" type="text/css" href="/static/hds.css" />
+	<title>HDS-Loading</title>
+  </head>
+  <body>
+	<div id="navbar"></div>
+	<div class="container">
+	  <div class="page-header">
+		<h1>Loading</h1>
+	  </div>
+	  <hr />
+	  <div class="alert alert-danger" id="alert-panel" style="display:none">
+		<!-- &times means the multiplication sign -->
+		<button type="button" class="close" onclick="$('#alert-panel').hide();">&times;</button>
+		<div class="alert-body" id="alert-panel-body"></div>
+	  </div>
+	  <div id="result-panel"></div>
+	</div>
+
+	<script type="text/x-dust-template" id="tmpl-response">
+	  <table class="table" id="table-response">
+	  	<thead>
+		  <tr>
+			<th>host</th>
+			<th>port</th>
+			<th>operations</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  {#loading}
+			<tr>
+			  <td>{host}</td>
+			  <td>{port}</td>
+			  <td><span class="glyphicon glyphicon-chevron-down"></span></td>
+			</tr>
+		  {/loading}
+		</tbody>
+	  </table>
+	</script>
+
+	<script type="text/javascript" src="/static/jquery-1.10.2.min.js">
+	</script><script type="text/javascript" src="/static/jquery.dataTables.min.js">
+	</script><script type="text/javascript" src="/static/bootstrap-3.0.2/js/bootstrap.min.js">
+	</script><script type="text/javascript" src="/static/bootstrap-3.0.2/js/bootstrap-editable.min.js">
+	</script><script type="text/javascript" src="/static/dataTables.bootstrap.js">
+	</script><script type="text/javascript" src="/static/dust-full-2.0.0.min.js">
+	</script><script type="text/javascript" src="/static/dust-helpers-1.1.1.min.js">
+	</script><script type="text/javascript" src="/static/dfs-dust.js">
+	</script><script type="text/javascript" src="/static/json-bignum.js">
+	</script><script type="text/javascript" src="/static/rest-csrf.js">
+	</script><script type="text/javascript" src="common.js">
+	</script><script type="text/javascript" src="loading.js">
+	</script><script type="text/javascript" src="/static/moment.min.js">
+	</script>
+  </body>
+</html>
