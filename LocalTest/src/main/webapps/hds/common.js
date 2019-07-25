@@ -18,17 +18,64 @@ $.fn.exists = function() {
 //	this.attr("disabled", !isDisabled);
 //}
 
-function createProtocolButtonGroup(idName) {
-	const LENGTH = PROTOCOLS.length;
-	var content = '';
-	content += '<div class="btn-group" id="btn-group-' + idName + '">';
-	for (let i = 0; i < LENGTH; ++i) {
-		let protocol = PROTOCOLS[i];
-		content += '<button type="button" class="btn btn-default" id="button-' + idName + '-'
-			+ protocol + '" onclick="selectProtocolButton(\'' + protocol
-			+ '\', \'' + idName + '\');">' + protocol + '://</button>';
-	}
+function createSelectPicker(dataInfo, query, selectPickerID) {
+	// Do not show selectpicker if no result
+	if (dataInfo.length <= 0)
+		return "";
+
+	let content = '<select class="selectpicker inodeSelector" '
+		+ 'id="selectpicker-' + query + '-' + selectPickerID + '" '
+		+ 'selectpicker-query="' + query + '" '
+		+ 'selectpicker-id="' + selectPickerID + '" '
+		+ 'data-width="fit" '
+		+ 'data-title="---" '
+		+ 'data-live-search="true">';
+
+	dataInfo.forEach(function(element) {
+		let name = element.name;
+
+		if (element.type === "directory") {
+			name += "/";
+		}
+
+		content += '<option>' + name + '</option>';
+		//content += '<option value="' + name + '">' + name + '</option>';
+	});
+
+	content += '</select>';
+
+	return content;
+}
+
+function createSelectPickerFormGroup(query) {
+	return '<div class="form-group">'
+		+ '<label class="col-sm-2 control-label">' + query + '</label>'
+		+ '<div class="col-sm-9 input-group">'
+		+ '<span class="input-group-addon">'
+		+ '<input type="checkbox" checked disabled>'
+		+ '</span>'
+		+ '<div id="' + query + '-select-picker">'
+		+ '</div>'
+		+ '<input type="text" class="form-control" id="text-' + query + '" placeholder="Additional path...">'
+		+ '</div>'
+		+ '</div>';
+}
+
+function createProtocolButtonGroup(query) {
+	var content = '<div class="btn-group" id="btn-group-' + query + '">';
+
+	PROTOCOLS.forEach(function(protocol) {
+		content += '<button type="button" '
+			+ 'class="btn btn-default protocol-btn" '
+			+ 'id="button-' + query + '-' + protocol + '" '
+			+ 'query="' + query + '" '
+			+ 'protocol="' + protocol + '">'
+			+ protocol + '://'
+			+ '</button>';
+	});
+
 	content += '</div>';
+
 	return content;
 }
 
@@ -55,25 +102,25 @@ function createQueryFormGroup(parentName, name, isHidden, isRequired, isProtocol
 }
 
 function createCollapseButton(parentName) {
-	var content = '';
-	content += '<div class="form-group">';
-	content += '<div class="col-sm-offset-2 col-sm-1">';
-	content += '<button type="button" class="btn btn-default" onclick="$(\'#'
+	var content = ''
+		+ '<div class="form-group">'
+		+ '<div class="col-sm-offset-2 col-sm-1">'
+		+ '<button type="button" class="btn btn-default" onclick="$(\'#'
 		+ parentName + '-queries\').toggle();$(\'#' + parentName
 		+ '-queries-glyphicon\').toggleClass(\'glyphicon-chevron-down\');$(\'#'
 		+ parentName
-		+ '-queries-glyphicon\').toggleClass(\'glyphicon-chevron-up\');">';
-	content += '<span class="glyphicon glyphicon-chevron-down" id="'
-		+ parentName + '-queries-glyphicon"></span>';
-	content += '</button>';
-	content += '</div>';
-	content += '</div>';
+		+ '-queries-glyphicon\').toggleClass(\'glyphicon-chevron-up\');">'
+		+ '<span class="glyphicon glyphicon-chevron-down" id="'
+		+ parentName + '-queries-glyphicon"></span>'
+		+ '</button>'
+		+ '</div>'
+		+ '</div>';
+
 	return content;
 }
 
 (function() {
 	"use strict";
-
 
 	function renderNavbar() {
 		const APIS = [
@@ -121,7 +168,6 @@ function createCollapseButton(parentName) {
 		content += '</div>';
 		$("#result-panel").html(content);
 	}
-
 
 	function initialize() {
 		if ($("#navbar").exists())

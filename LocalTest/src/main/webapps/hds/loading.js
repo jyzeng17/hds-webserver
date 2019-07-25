@@ -1,19 +1,3 @@
-var selectedProtocol;
-
-function selectProtocolButton(protocol, queryName) {
-	const LENGTH = PROTOCOLS.length;
-	for (let i = 0; i < LENGTH; ++i) {
-		let element = PROTOCOLS[i];
-		if (element === protocol ) {
-			$("#button-" + queryName + "-" + element).attr("style", "background:#ededed");
-		} else {
-			$("#button-" + queryName + "-" + element).removeAttr("style");
-		}
-	}
-	selectedProtocol = protocol;
-	$("#text-" + queryName).val(protocol + "://");
-}
-
 (function() {
 	"use strict";
 
@@ -23,6 +7,7 @@ function selectProtocolButton(protocol, queryName) {
 	function renderQueryFormGroups() {
 		//createQueryFormGroup(parentName, name, isHidden, isRequired, isProtocolButtonGroup)
 		var content = '';
+
 		$("#query-form-groups").html(content);
 	}
 

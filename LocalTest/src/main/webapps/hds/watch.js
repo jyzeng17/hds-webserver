@@ -1,19 +1,3 @@
-var selectedProtocol;
-
-function selectProtocolButton(protocol, queryName) {
-	const LENGTH = PROTOCOLS.length;
-	for (let i = 0; i < LENGTH; ++i) {
-		let element = PROTOCOLS[i];
-		if (element === protocol ) {
-			$("#button-" + queryName + "-" + element).attr("style", "background:#ededed");
-		} else {
-			$("#button-" + queryName + "-" + element).removeAttr("style");
-		}
-	}
-	selectedProtocol = protocol;
-	$("#text-" + queryName).val(protocol + "://");
-}
-
 (function() {
 	"use strict";
 
@@ -47,32 +31,33 @@ function selectProtocolButton(protocol, queryName) {
 
 	function renderQueryFormGroups() {
 		//createQueryFormGroup(parentName, name, isHidden, isRequired, isProtocolButtonGroup)
-		var content = '';
-		content += createQueryFormGroup("", "history", false, false, false, "true/false");
-		content += createQueryFormGroup("", "id", false, false, false);
-		content += createQueryFormGroup("", "redirectfrom", false, false, false);
-		content += createQueryFormGroup("", "servername", false, false, false);
-		content += createQueryFormGroup("", "clientname", false, false, false);
-		content += createQueryFormGroup("", "from", false, false, false);
-		content += createQueryFormGroup("", "to", false, false, false);
-		content += createQueryFormGroup("", "state", false, false, false, "pending/running/succeed/failed");
-		content += createQueryFormGroup("", "progress", false, false, false, "0.0 ~ 1.0");
-		content += createQueryFormGroup("", "minprogress", false, false, false, "0.0 ~ 1.0");
-		content += createQueryFormGroup("", "maxprogress", false, false, false, "0.0 ~ 1.0");
-		content += createQueryFormGroup("", "starttime", false, false, false, "yyyy-MM-dd'T'HH:mm:ss.SSS");
-		content += createQueryFormGroup("", "minstarttime", false, false, false, "yyyy-MM-dd'T'HH:mm:ss.SSS");
-		content += createQueryFormGroup("", "maxstarttime", false, false, false, "yyyy-MM-dd'T'HH:mm:ss.SSS");
-		content += createQueryFormGroup("", "elapsed", false, false, false);
-		content += createQueryFormGroup("", "minelapsed", false, false, false);
-		content += createQueryFormGroup("", "maxelapsed", false, false, false);
-		content += createQueryFormGroup("", "expectedsize", false, false, false);
-		content += createQueryFormGroup("", "minexpectedsize", false, false, false);
-		content += createQueryFormGroup("", "maxexpectedsize", false, false, false);
-		content += createQueryFormGroup("", "transferredsize", false, false, false);
-		content += createQueryFormGroup("", "mintransferredsize", false, false, false);
-		content += createQueryFormGroup("", "maxtransferredsize", false, false, false);
-		content += createQueryFormGroup("", "limit", false, false, false);
-		content += createQueryFormGroup("", "offset", false, false, false);
+		var content = ''
+			+ createQueryFormGroup("", "history", false, false, false, "true/false")
+			+ createQueryFormGroup("", "id", false, false, false)
+			+ createQueryFormGroup("", "redirectfrom", false, false, false)
+			+ createQueryFormGroup("", "servername", false, false, false)
+			+ createQueryFormGroup("", "clientname", false, false, false)
+			+ createQueryFormGroup("", "from", false, false, false)
+			+ createQueryFormGroup("", "to", false, false, false)
+			+ createQueryFormGroup("", "state", false, false, false, "pending/running/succeed/failed")
+			+ createQueryFormGroup("", "progress", false, false, false, "0.0 ~ 1.0")
+			+ createQueryFormGroup("", "minprogress", false, false, false, "0.0 ~ 1.0")
+			+ createQueryFormGroup("", "maxprogress", false, false, false, "0.0 ~ 1.0")
+			+ createQueryFormGroup("", "starttime", false, false, false, "yyyy-MM-dd'T'HH:mm:ss.SSS")
+			+ createQueryFormGroup("", "minstarttime", false, false, false, "yyyy-MM-dd'T'HH:mm:ss.SSS")
+			+ createQueryFormGroup("", "maxstarttime", false, false, false, "yyyy-MM-dd'T'HH:mm:ss.SSS")
+			+ createQueryFormGroup("", "elapsed", false, false, false)
+			+ createQueryFormGroup("", "minelapsed", false, false, false)
+			+ createQueryFormGroup("", "maxelapsed", false, false, false)
+			+ createQueryFormGroup("", "expectedsize", false, false, false)
+			+ createQueryFormGroup("", "minexpectedsize", false, false, false)
+			+ createQueryFormGroup("", "maxexpectedsize", false, false, false)
+			+ createQueryFormGroup("", "transferredsize", false, false, false)
+			+ createQueryFormGroup("", "mintransferredsize", false, false, false)
+			+ createQueryFormGroup("", "maxtransferredsize", false, false, false)
+			+ createQueryFormGroup("", "limit", false, false, false)
+			+ createQueryFormGroup("", "offset", false, false, false);
+
 		$("#query-form-groups").html(content);
 	}
 

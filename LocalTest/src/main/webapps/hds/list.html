@@ -6,6 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="/static/bootstrap-3.0.2/css/bootstrap-editable.css"/>
 	<link rel="stylesheet" type="text/css" href="/static/dataTables.bootstrap.css" />
 	<link rel="stylesheet" type="text/css" href="/static/hds.css" />
+	<link rel="stylesheet" type="text/css" href="/static/bootstrap-select-1.13.9/dist/css/bootstrap-select.min.css" />
 	<title>HDS-List</title>
   </head>
   <body>
@@ -49,11 +50,11 @@
 		<tbody>
 		  {#dataInfo}
 			<tr>
-			  <td>{uri}</td>
+			  <td style="white-space: nowrap;">{uri}</td>
 			  <td>{location}</td>
 			  <td>{@eq key=type value="directory"}<a inode-path="{uri}" class="explorer-browse-links">{name}</a>{:else}{name}{/eq}</td>
 			  <td>{size}</td>
-			  <td>{ts}</td>
+			  <td style="white-space: nowrap;">{ts}</td>
 			  <td>{type}</td>
 			  <td>{#dataowner}{host}:{ratio}{@sep}, {/sep}{/dataowner}</td>
 			</tr>
@@ -75,6 +76,7 @@
 	</script><script type="text/javascript" src="common.js">
 	</script><script type="text/javascript" src="list.js">
 	</script><script type="text/javascript" src="/static/moment.min.js">
+	</script><script type="text/javascript" src="/static/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js">
 	</script>
   </body>
 </html>

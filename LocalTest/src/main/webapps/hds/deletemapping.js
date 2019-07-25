@@ -1,19 +1,3 @@
-var selectedProtocol;
-
-function selectProtocolButton(protocol, queryName) {
-	const LENGTH = PROTOCOLS.length;
-	for (let i = 0; i < LENGTH; ++i) {
-		let element = PROTOCOLS[i];
-		if (element === protocol ) {
-			$("#button-" + queryName + "-" + element).attr("style", "background:#ededed");
-		} else {
-			$("#button-" + queryName + "-" + element).removeAttr("style");
-		}
-	}
-	selectedProtocol = protocol;
-	$("#text-" + queryName).val(protocol + "://");
-}
-
 (function() {
 	"use strict";
 
@@ -30,15 +14,16 @@ function selectProtocolButton(protocol, queryName) {
 
 	function renderQueryFormGroups() {
 		//createQueryFormGroup(parentName, name, isHidden, isRequired, isProtocolButtonGroup)
-		var content = '';
-		content += createQueryFormGroup("", "id", false, false, false);
-		content += createQueryFormGroup("", "domain", false, false, false);
-		content += createQueryFormGroup("", "user", false, false, false);
-		content += createQueryFormGroup("", "password", false, false, false);
-		content += createQueryFormGroup("", "host", false, false, false);
-		content += createQueryFormGroup("", "port", false, false, false);
-		content += createQueryFormGroup("", "minport", false, false, false);
-		content += createQueryFormGroup("", "maxport", false, false, false);
+		var content = ''
+			+ createQueryFormGroup("", "id", false, false, false)
+			+ createQueryFormGroup("", "domain", false, false, false)
+			+ createQueryFormGroup("", "user", false, false, false)
+			+ createQueryFormGroup("", "password", false, false, false)
+			+ createQueryFormGroup("", "host", false, false, false)
+			+ createQueryFormGroup("", "port", false, false, false)
+			+ createQueryFormGroup("", "minport", false, false, false)
+			+ createQueryFormGroup("", "maxport", false, false, false);
+
 		$("#query-form-groups").html(content);
 	}
 
