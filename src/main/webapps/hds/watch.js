@@ -138,7 +138,8 @@
 					],
 					"deferRender": true,
 					"scrollX": true,
-					"autoWidth": true
+					"autoWidth": true,
+					"order": [[ 8, "desc" ]]
 
 					//"order": [[ 6, "asc" ]]
 				});
