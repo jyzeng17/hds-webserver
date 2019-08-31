@@ -88,7 +88,7 @@
 		urlQuery = "?from=" + encodeURIComponent(protocol + serverName + serverPort + fromPath);
 
 		// Test
-		let hostName = "slave01";
+		let hostName = "localhost";
 		let hostPort = "8000";
 		let api = "list";
 		let urlPath = "http://" + hostName + ":" + hostPort + "/dataservice/v1/" + api;
@@ -317,7 +317,7 @@
 
 		if (url == "button.send") {
 			//url = "http://" + window.location.host + "/dataservice/v1/access?" + getQuery();
-			url = "http://slave01:8000/dataservice/v1/access" + getQuery();
+			url = "http://localhost:8000/dataservice/v1/access" + getQuery();
 			//url = "http://" + $("#text-host").val() + ":" + $("#number-port").val() + "/dataservice/v1/access?" + getQuery();
 			console.log("button send url = " + url);
 		}

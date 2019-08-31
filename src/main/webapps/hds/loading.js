@@ -74,7 +74,7 @@
 		$("#alert-panel").hide();
 
 			//url = "http://" + window.location.host + "/dataservice/v1/access?" + getQuery();
-			url = "http://slave01:8000/dataservice/v1/loading";
+			url = "http://localhost:8000/dataservice/v1/loading";
 			//url = "http://" + $("#text-host").val() + ":" + $("#number-port").val() + "/dataservice/v1/access?" + getQuery();
 
 		window.location.hash = url;

@@ -109,7 +109,7 @@
 
 		if (url == "button.send") {
 			//url = "http://" + window.location.host + "/dataservice/v1/access?" + getQuery();
-			url = "http://slave01:8000/dataservice/v1/watch" + getQuery();
+			url = "http://localhost:8000/dataservice/v1/watch" + getQuery();
 			//url = "http://" + $("#text-host").val() + ":" + $("#number-port").val() + "/dataservice/v1/access?" + getQuery();
 		}
 

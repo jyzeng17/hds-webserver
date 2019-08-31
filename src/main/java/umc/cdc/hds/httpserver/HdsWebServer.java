@@ -71,7 +71,7 @@ public class HdsWebServer {
 			final Connector listener;
 			String scheme = endpoint.getScheme();
 			if ("http".equals(scheme)) {
-				listener = App.createDefaultChannelConnector();
+				listener = HdsWebServer.createDefaultChannelConnector();
 			} else {
 				throw new IOException("unknown scheme for endpoint:" + endpoint);
 			}
@@ -89,12 +89,9 @@ public class HdsWebServer {
 	 * @throws FileNotFoundException if 'webapps' directory cannot be found on CLASSPATH.
 	 */
 	protected String getWebAppsPath(String appName) throws FileNotFoundException {
-		URL url = getClass().getClassLoader().getResource("webapps/" + appName);
-		if (url == null)
-			throw new FileNotFoundException("webapps/" + appName
-					+ " not found in CLASSPATH");
+		URL url = HdsWebServer.class.getProtectionDomain().getCodeSource().getLocation();
 		String urlString = url.toString();
-		return urlString.substring(0, urlString.lastIndexOf('/'));
+		return urlString.substring(0, urlString.lastIndexOf('/')) + "/webapps";
 	}
 
 	private static WebAppContext createWebAppContext(String name, final String appDir) {
