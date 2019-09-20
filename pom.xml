@@ -54,16 +54,6 @@
 										<exclude name="**/proto-web.xml"/>
 									</fileset>
 								</copy>
-								<!--
-								<copy file="${basedir}/src/main/webapps/proto-web.xml"
-									tofile="${project.build.directory}/classes/webapps/hds/WEB-INF/web.xml"
-									filtering="true"/>
-								<copy toDir="${project.build.directory}/classes/webapps">
-									<fileset dir="${basedir}/src/main/webapps">
-										<exclude name="**/proto-web.xml"/>
-									</fileset>
-								</copy>
-								-->
 							</target>
 						</configuration>
 					</execution>

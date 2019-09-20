@@ -20,145 +20,32 @@
 	let selectedProtocol = "";
 	let nextSelectPickerFromID = 0;
 
-	function updateSelectPickerID() {
-		nextSelectPickerFromID = 0;
-		while ($("#selectpicker-from-" + nextSelectPickerFromID).length) {
-			++nextSelectPickerFromID;
-		}
-	}
+	function createQueryFormGroups() {
+		let html = new QueryFormGroup('from').
+			setRequired().setProtocolButtonGroup().html() +
+			createSelectPickerFormGroup("from") +
+			createCollapseButton("from") + '<div id="from-queries" hidden>' +
+			new QueryFormGroup('file').
+			setParentName('from').setPlaceholder(PLACEHOLDER.BOOLEAN).html() +
+			new QueryFormGroup('directory').
+			setParentName('from').setPlaceholder(PLACEHOLDER.BOOLEAN).html() +
+			new QueryFormGroup('time').
+			setParentName('from').setPlaceholder(PLACEHOLDER.TIME).html() +
+			new QueryFormGroup('mintime').
+			setParentName('from').setPlaceholder(PLACEHOLDER.TIME).html() +
+			new QueryFormGroup('maxtime').
+			setParentName('from').setPlaceholder(PLACEHOLDER.TIME).html() +
+			new QueryFormGroup('size').setParentName('from').html() +
+			new QueryFormGroup('minsize').setParentName('from').html() +
+			new QueryFormGroup('maxsize').setParentName('from').html() +
+			new QueryFormGroup('name').setParentName('from').html() +
+			new QueryFormGroup('location').setParentName('from').setHidden().
+			setPlaceholder(PLACEHOLDER.HDS_LOCATION).html() +
+			'</div>' +
+			new QueryFormGroup('limit').html() +
+			new QueryFormGroup('offset').html();
 
-	function refreshSelectPickerGroup(query, lastSelectPickerID) {
-		// 刪除所有在 selectPickerID 後的 selectpicker, 並更新 selectPickerID 值
-		for (let i = Number(lastSelectPickerID) + 1; i < nextSelectPickerFromID; ++i) {
-			// First destroy the selectpicker wrapper, then remove the whole element
-			$("#selectpicker-from-" + i).selectpicker("destroy").remove();
-			//console.log(i + " removed");
-		}
-		nextSelectPickerFromID = Number(lastSelectPickerID) + 1;
-
-		let protocol = "";
-		let serverName = "";
-		let serverPort = "";
-
-		let urlQuery = "";
-
-		switch (query) {
-			case "from":
-				if (selectedProtocol === "")
-					return;
-
-				protocol = selectedProtocol + "://";
-
-				// Test
-				if (serverPort !== "") {
-					serverPort = ":" + serverPort;
-				}
-
-				let fromPath = "/";
-				for (let i = 0; i <= lastSelectPickerID; ++i) {
-					// None selected option is impossible
-					let option = $("#selectpicker-from-" + i).find(":selected").text();
-
-					//console.log("selected option: " + option);
-
-					if (fromPath.slice(-1) !== "/") {
-						fromPath += "/";
-					}
-
-					fromPath += option;
-				}
-
-				fromPath += "?directory=" + encodeURIComponent("true");
-
-				// 需要一個 from query 能夠列出所有前面已選路徑底下的全部檔案和目錄
-				urlQuery = "?from=" + encodeURIComponent(protocol + serverName + serverPort + fromPath);
-				break;
-			case "to":
-				break;
-			default:
-				break;
-		}
-
-		// Test
-		let hostName = "localhost";
-		let hostPort = "8000";
-		let api = "list";
-		let urlPath = "http://" + hostName + ":" + hostPort + "/dataservice/v1/" + api;
-		let url = urlPath + urlQuery;
-
-		//console.log("refresh select picker group url = " + url);
-
-		$.get(url, function(data) {
-			let newSelectPicker = createSelectPicker(data.dataInfo, query, nextSelectPickerFromID);
-
-			if (newSelectPicker === "")
-				return;
-
-			$("#" + query + "-select-picker").append(newSelectPicker);
-			
-			$("#selectpicker-from-" + nextSelectPickerFromID).selectpicker("render");
-
-			// Selectpicker on changed callback
-			$("#selectpicker-from-" + nextSelectPickerFromID).on("changed.bs.select", function() {
-				let thisQuery = $(this).attr("selectpicker-query");
-				let thisID = $(this).attr("selectpicker-id");
-
-				//console.log("onChanged, query=" + query + ", id=" + id);
-
-				if (((typeof thisQuery) !== "undefined") && ((typeof thisID) !== "undefined")) {
-					refreshSelectPickerGroup(thisQuery, thisID);
-				}
-			});
-
-			nextSelectPickerFromID = Number(nextSelectPickerFromID) + 1;
-			//console.log("nextSelectPickerFromID = " + nextSelectPickerFromID);
-			//console.log("done");
-		}).error(function(jqxhr, text, err) {
-			// text = textStatus = "error"
-			// err = errorThrown = "Internal Server Error"
-			// jqxhr = jqXHR = Object
-
-			//let msg = "<p><b>Error!</b><ul>";
-			//if (jqxhr.status == 500) {
-			//	// Show user the received error message
-			//	let response = JSON.parse(jqxhr.responseText);
-			//	msg += "<li><b>url:</b> " + url + "</li>";
-			//	msg += "<li><b>exception:</b> " + response.RemoteException.RemoteException.exception + "</li>";
-			//	msg += "<li><b>message:</b> " + response.RemoteException.RemoteException.message + "</li>";
-			//} else {
-			//	// Show user the default error message
-			//	msg += "<li><b>url:</b> " + url + "</li>";
-			//	msg += "<li><b>errorThrown:</b> " + err + "</li>";
-			//}
-			//msg += "</ul></p>";
-
-			// 隱藏 select picker group 並顯示直接填值的 text input 給使用者輸入
-			console.log(err);
-		});
-	}
-
-	function renderQueryFormGroups() {
-		//createQueryFormGroup(parentName, name, isHidden, isRequired, isProtocolButtonGroup)
-		var content = ''
-			+ createQueryFormGroup("", "from", false, true, true)
-			+ createSelectPickerFormGroup("from")
-			+ createCollapseButton("from")
-			+ '<div id="from-queries" hidden>'
-			+ createQueryFormGroup("from", "file", false, false, false, "true/false")
-			+ createQueryFormGroup("from", "directory", false, false, false, "true/false")
-			+ createQueryFormGroup("from", "time", false, false, false, "yyyy-MM-dd'T'HH:mm:ss.SSS")
-			+ createQueryFormGroup("from", "mintime", false, false, false, "yyyy-MM-dd'T'HH:mm:ss.SSS")
-			+ createQueryFormGroup("from", "maxtime", false, false, false, "yyyy-MM-dd'T'HH:mm:ss.SSS")
-			+ createQueryFormGroup("from", "size", false, false, false)
-			+ createQueryFormGroup("from", "minsize", false, false, false)
-			+ createQueryFormGroup("from", "maxsize", false, false, false)
-			+ createQueryFormGroup("from", "name", false, false, false)
-			+ createQueryFormGroup("from", "location", true, false, false, "hdfs/hbase")
-			+ '</div>'
-			+ createQueryFormGroup("", "limit", false, false, false)
-			+ createQueryFormGroup("", "offset", false, false, false);
-
-		$("#query-form-groups").html(content);
+		$("#query-form-groups").html(html);
 
 		$(".protocol-btn").on("click", function() {
 			let query = $(this).attr("query");
@@ -185,12 +72,95 @@
 		});
 	}
 
-	function renderStaticContents() {
-		renderQueryFormGroups();
+	function updateSelectPickerID() {
+		nextSelectPickerFromID = 0;
+		while ($("#selectpicker-from-" + nextSelectPickerFromID).length) {
+			++nextSelectPickerFromID;
+		}
+	}
+
+	function refreshSelectPickerGroup(query, lastSelectPickerID) {
+		for (let i = Number(lastSelectPickerID) + 1; i < nextSelectPickerFromID; ++i) {
+			// First destroy the selectpicker wrapper, then remove the whole element
+			$("#selectpicker-from-" + i).selectpicker("destroy").remove();
+		}
+		nextSelectPickerFromID = Number(lastSelectPickerID) + 1;
+
+		let protocol = "";
+		let serverName = "";
+		let serverPort = "";
+
+		let urlQuery = "";
+
+		switch (query) {
+			case "from":
+				if (selectedProtocol === "")
+					return;
+
+				protocol = selectedProtocol + "://";
+
+				// Test
+				if (serverPort !== "") {
+					serverPort = ":" + serverPort;
+				}
+
+				let fromPath = "/";
+				for (let i = 0; i <= lastSelectPickerID; ++i) {
+					// None selected option is impossible
+					let option = $("#selectpicker-from-" + i).find(":selected").text();
+
+					if (fromPath.slice(-1) !== "/") {
+						fromPath += "/";
+					}
+
+					fromPath += option;
+				}
+
+				fromPath += "?directory=" + encodeURIComponent("true");
+
+				urlQuery = "?from=" + encodeURIComponent(protocol + serverName + serverPort + fromPath);
+				break;
+			case "to":
+				break;
+			default:
+				break;
+		}
+
+		let hostName = window.location.hostname;
+		let hostPort = "8000";
+		let api = "list";
+		let urlPath = "http://" + hostName + ":" + hostPort + "/dataservice/v1/" + api;
+		let url = urlPath + urlQuery;
+
+		$.get(url, function(data) {
+			let newSelectPicker = createSelectPicker(data.dataInfo, query, nextSelectPickerFromID);
+
+			if (newSelectPicker === "")
+				return;
+
+			$("#" + query + "-select-picker").append(newSelectPicker);
+			
+			$("#selectpicker-from-" + nextSelectPickerFromID).selectpicker("render");
+
+			// Selectpicker on changed callback
+			$("#selectpicker-from-" + nextSelectPickerFromID).on("changed.bs.select", function() {
+				let thisQuery = $(this).attr("selectpicker-query");
+				let thisID = $(this).attr("selectpicker-id");
+
+				if (((typeof thisQuery) !== "undefined") && ((typeof thisID) !== "undefined")) {
+					refreshSelectPickerGroup(thisQuery, thisID);
+				}
+			});
+
+			nextSelectPickerFromID = Number(nextSelectPickerFromID) + 1;
+		}).error(function(jqxhr, text, err) {
+			console.log(err);
+		});
 	}
 
 	function getUrlWithInodePath(inodePath) {
-		return "http://localhost:8000/dataservice/v1/list" + getQuery(inodePath);
+		let hostName = window.location.hostname;
+		return "http://" + hostName + ":8000/dataservice/v1/list" + getQuery(inodePath);
 	}
 
 	function getQueryValue(query) {
@@ -230,8 +200,8 @@
 	}
 
 	function getQuery(inodePath = "") {
-		var query = "";
-		var isFirstQuery = true, isInSubQuery = false;
+		let query = "";
+		let isFirstQuery = true, isInSubQuery = false;
 
 		QUERIES.forEach(function (element) {
 			let isSubQuery = (element.parentName !== "");
@@ -274,8 +244,6 @@
 
 				newQuery += element.name + "=" + encodedQueryValue;
 
-		//let text = $("#selectpicker-from-0").find(":selected").text();
-
 				query += (!isSubQuery)? newQuery : encodeURIComponent(newQuery);
 			}
 
@@ -288,14 +256,11 @@
 		$("#alert-panel").hide();
 
 		if (url === "button.send") {
-			//url = "http://" + window.location.host + "/dataservice/v1/list?" + getQuery();
-			url = "http://localhost:8000/dataservice/v1/list" + getQuery();
-			//url = "http://" + $("#text-host").val() + ":" + $("#number-port").val() + "/dataservice/v1/list?" + getQuery();
-			console.log("button send url = " + url);
+			url = "http://" + window.location.hostname +
+				":8000/dataservice/v1/list" + getQuery();
 		}
 
 		window.location.hash = url;
-		//console.log("2 url === " + url);
 
 		$.get(url, function(data) {
 			// render template: dust.render(templateName, data, callback);
@@ -352,7 +317,7 @@
 	function refillInputFieldsByURL(url) {
 		// Clear all checkboxes and input fields first
 		const LENGTH = QUERIES.length;
-		for (var i = 0; i < LENGTH; ++i) {
+		for (let i = 0; i < LENGTH; ++i) {
 			let element = QUERIES[i];
 			let isSubQuery = (element.parentName !== "");
 			let idName = ((!isSubQuery)? '' : element.parentName + '-')
@@ -410,12 +375,12 @@
 	}
 
 	function initialize() {
-		renderStaticContents();
+		createQueryFormGroups();
 
 		// compile and register Dust.js
 		dust.loadSource(dust.compile($('#tmpl-explorer').html(), 'explorer'));
 
-		var url = window.location.hash.slice(1);
+		let url = window.location.hash.slice(1);
 		refillInputFieldsByURL(url);
 
 		updateSelectPickerID();
@@ -426,11 +391,9 @@
 
 	// Refresh page once url changed
 	$(window).bind('hashchange', function () {
-		//var url = decodeURIComponent(window.location.hash.slice(1));
-		var url = window.location.hash.slice(1);
+		let url = window.location.hash.slice(1);
 		refillInputFieldsByURL(url);
 		refreshDirectoryTable(url);
-		//console.log("window bind");
 	});
 
 	$("#button-send").click(function () {

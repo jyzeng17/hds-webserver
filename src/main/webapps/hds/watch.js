@@ -1,78 +1,76 @@
 (function() {
 	"use strict";
 
-	const QUERIES = [
-		{parentName: "", name: "history"},
-		{parentName: "", name: "id"},
-		{parentName: "", name: "redirectfrom"},
-		{parentName: "", name: "servername"},
-		{parentName: "", name: "clientname"},
-		{parentName: "", name: "from"},
-		{parentName: "", name: "to"},
-		{parentName: "", name: "state"},
-		{parentName: "", name: "progress"},
-		{parentName: "", name: "minprogress"},
-		{parentName: "", name: "maxprogress"},
-		{parentName: "", name: "starttime"},
-		{parentName: "", name: "minstarttime"},
-		{parentName: "", name: "maxstarttime"},
-		{parentName: "", name: "elapsed"},
-		{parentName: "", name: "minelapsed"},
-		{parentName: "", name: "maxelapsed"},
-		{parentName: "", name: "expectedsize"},
-		{parentName: "", name: "minexpectedsize"},
-		{parentName: "", name: "maxexpextedsize"},
-		{parentName: "", name: "transferredsize"},
-		{parentName: "", name: "mintransferredsize"},
-		{parentName: "", name: "maxtransferredsize"},
-		{parentName: "", name: "limit"},
-		{parentName: "", name: "offset"}
-	];
+	function createQueryFormGroups() {
+		let html = new QueryFormGroup('history').
+			setPlaceholder(PLACEHOLDER.BOOLEAN).html() +
+			new QueryFormGroup('id').html() +
+			new QueryFormGroup('redirectfrom').html() +
+			new QueryFormGroup('servername').html() +
+			new QueryFormGroup('clientname').html() +
+			new QueryFormGroup('from').html() +
+			new QueryFormGroup('to').html() +
+			new QueryFormGroup('state').
+			setPlaceholder('pending/running/succeed/failed').html() +
+			new QueryFormGroup('progress').
+			setPlaceholder(PLACEHOLDER.PROGRESS).html() +
+			new QueryFormGroup('minprogress').
+			setPlaceholder(PLACEHOLDER.PROGRESS).html() +
+			new QueryFormGroup('maxprogress').
+			setPlaceholder(PLACEHOLDER.PROGRESS).html() +
+			new QueryFormGroup('starttime').
+			setPlaceholder(PLACEHOLDER.TIME).html() +
+			new QueryFormGroup('minstarttime').
+			setPlaceholder(PLACEHOLDER.TIME).html() +
+			new QueryFormGroup('maxstarttime').
+			setPlaceholder(PLACEHOLDER.TIME).html() +
+			new QueryFormGroup('elapsed').html() +
+			new QueryFormGroup('minelapsed').html() +
+			new QueryFormGroup('maxelapsed').html() +
+			new QueryFormGroup('expectedsize').html() +
+			new QueryFormGroup('minexpectedsize').html() +
+			new QueryFormGroup('maxexpectedsize').html() +
+			new QueryFormGroup('transferredsize').html() +
+			new QueryFormGroup('mintransferredsize').html() +
+			new QueryFormGroup('maxtransferredsize').html() +
+			new QueryFormGroup('limit').html() +
+			new QueryFormGroup('offset').html();
 
-	function renderQueryFormGroups() {
-		//createQueryFormGroup(parentName, name, isHidden, isRequired, isProtocolButtonGroup)
-		var content = ''
-			+ createQueryFormGroup("", "history", false, false, false, "true/false")
-			+ createQueryFormGroup("", "id", false, false, false)
-			+ createQueryFormGroup("", "redirectfrom", false, false, false)
-			+ createQueryFormGroup("", "servername", false, false, false)
-			+ createQueryFormGroup("", "clientname", false, false, false)
-			+ createQueryFormGroup("", "from", false, false, false)
-			+ createQueryFormGroup("", "to", false, false, false)
-			+ createQueryFormGroup("", "state", false, false, false, "pending/running/succeed/failed")
-			+ createQueryFormGroup("", "progress", false, false, false, "0.0 ~ 1.0")
-			+ createQueryFormGroup("", "minprogress", false, false, false, "0.0 ~ 1.0")
-			+ createQueryFormGroup("", "maxprogress", false, false, false, "0.0 ~ 1.0")
-			+ createQueryFormGroup("", "starttime", false, false, false, "yyyy-MM-dd'T'HH:mm:ss.SSS")
-			+ createQueryFormGroup("", "minstarttime", false, false, false, "yyyy-MM-dd'T'HH:mm:ss.SSS")
-			+ createQueryFormGroup("", "maxstarttime", false, false, false, "yyyy-MM-dd'T'HH:mm:ss.SSS")
-			+ createQueryFormGroup("", "elapsed", false, false, false)
-			+ createQueryFormGroup("", "minelapsed", false, false, false)
-			+ createQueryFormGroup("", "maxelapsed", false, false, false)
-			+ createQueryFormGroup("", "expectedsize", false, false, false)
-			+ createQueryFormGroup("", "minexpectedsize", false, false, false)
-			+ createQueryFormGroup("", "maxexpectedsize", false, false, false)
-			+ createQueryFormGroup("", "transferredsize", false, false, false)
-			+ createQueryFormGroup("", "mintransferredsize", false, false, false)
-			+ createQueryFormGroup("", "maxtransferredsize", false, false, false)
-			+ createQueryFormGroup("", "limit", false, false, false)
-			+ createQueryFormGroup("", "offset", false, false, false);
-
-		$("#query-form-groups").html(content);
+		$("#query-form-groups").html(html);
 	}
-
-	function renderStaticContents() {
-		renderQueryFormGroups();
-	}
-
-	//function getUrlWithInodePath(inodePath) {
-	//	return "http://slave01:8000/dataservice/v1/list" + getQuery(inodePath);
-	//}
 
 	function getQuery() {
+		const QUERIES = [
+			{parentName: "", name: "history"},
+			{parentName: "", name: "id"},
+			{parentName: "", name: "redirectfrom"},
+			{parentName: "", name: "servername"},
+			{parentName: "", name: "clientname"},
+			{parentName: "", name: "from"},
+			{parentName: "", name: "to"},
+			{parentName: "", name: "state"},
+			{parentName: "", name: "progress"},
+			{parentName: "", name: "minprogress"},
+			{parentName: "", name: "maxprogress"},
+			{parentName: "", name: "starttime"},
+			{parentName: "", name: "minstarttime"},
+			{parentName: "", name: "maxstarttime"},
+			{parentName: "", name: "elapsed"},
+			{parentName: "", name: "minelapsed"},
+			{parentName: "", name: "maxelapsed"},
+			{parentName: "", name: "expectedsize"},
+			{parentName: "", name: "minexpectedsize"},
+			{parentName: "", name: "maxexpextedsize"},
+			{parentName: "", name: "transferredsize"},
+			{parentName: "", name: "mintransferredsize"},
+			{parentName: "", name: "maxtransferredsize"},
+			{parentName: "", name: "limit"},
+			{parentName: "", name: "offset"}
+		];
+
 		const LENGTH = QUERIES.length;
-		var query = "";
-		var isFirstQuery = true, isInSubQuery = false;
+		let query = "";
+		let isFirstQuery = true, isInSubQuery = false;
 		for (let i = 0; i < LENGTH; ++i) {
 			let element = QUERIES[i];
 			let isSubQuery = (element.parentName !== "");
@@ -108,9 +106,8 @@
 		$("#alert-panel").hide();
 
 		if (url == "button.send") {
-			//url = "http://" + window.location.host + "/dataservice/v1/access?" + getQuery();
-			url = "http://localhost:8000/dataservice/v1/watch" + getQuery();
-			//url = "http://" + $("#text-host").val() + ":" + $("#number-port").val() + "/dataservice/v1/access?" + getQuery();
+			url = "http://" + window.location.hostname +
+				":8000/dataservice/v1/watch" + getQuery();
 		}
 
 		window.location.hash = url;
@@ -166,22 +163,15 @@
 		});
 	}
 
-	//function refillInputFieldsByURL(url) {
-
 	function initialize() {
-		renderStaticContents();
+		createQueryFormGroups();
 
 		// compile and register Dust.js
 		dust.loadSource(dust.compile($('#tmpl-response').html(), 'response'));
 
-		var url = window.location.hash.slice(1);
+		let url = window.location.hash.slice(1);
 		refreshResponseTable(url);
 	}
-
-	//$(window).bind('hashchange', function () {
-	//	var url = decodeURIComponent(window.location.hash.slice(1));
-	//	refreshResponseTable(url);
-	//});
 
 	$("#button-send").click(function () {
 		refreshResponseTable("button.send");

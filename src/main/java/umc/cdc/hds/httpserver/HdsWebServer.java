@@ -349,8 +349,7 @@ public class HdsWebServer {
 			try {
 				c.close();
 			} catch (Exception e) {
-				LOG.error(
-						"Error while stopping listener for webapp"
+				LOG.error( "Error while stopping listener for webapp"
 						+ webAppContext.getDisplayName(), e);
 				exception = addMultiException(exception, e);
 			}
@@ -389,10 +388,13 @@ public class HdsWebServer {
 
 	public static void main(String[] args) {
 		try {
-			URI uri = URI.create("http://localhost:8080");
+			URI uri = URI.create("http://0.0.0.0:8080");
 			HdsWebServer hws = new HdsWebServer("hds", uri);
 			hws.start();
 			hws.join();
+			//Thread.sleep(5000);
+			//LOG.info("Sleeping finished");
+			//hws.stop();
 		} catch (Exception e) {
 			LOG.error("main: ", e);
 		}

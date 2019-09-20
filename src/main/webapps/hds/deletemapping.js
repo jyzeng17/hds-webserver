@@ -1,44 +1,34 @@
 (function() {
 	"use strict";
 
-	const QUERIES = [
-		{parentName: "", name: "id"},
-		{parentName: "", name: "domain"},
-		{parentName: "", name: "user"},
-		{parentName: "", name: "password"},
-		{parentName: "", name: "host"},
-		{parentName: "", name: "port"},
-		{parentName: "", name: "minport"},
-		{parentName: "", name: "maxport"}
-	];
+	function createQueryFormGroups() {
+		let html = new QueryFormGroup('id').html() +
+			new QueryFormGroup('domain').html() +
+			new QueryFormGroup('user').html() +
+			new QueryFormGroup('password').html() +
+			new QueryFormGroup('host').html() +
+			new QueryFormGroup('port').html() +
+			new QueryFormGroup('minport').html() +
+			new QueryFormGroup('maxport').html();
 
-	function renderQueryFormGroups() {
-		//createQueryFormGroup(parentName, name, isHidden, isRequired, isProtocolButtonGroup)
-		var content = ''
-			+ createQueryFormGroup("", "id", false, false, false)
-			+ createQueryFormGroup("", "domain", false, false, false)
-			+ createQueryFormGroup("", "user", false, false, false)
-			+ createQueryFormGroup("", "password", false, false, false)
-			+ createQueryFormGroup("", "host", false, false, false)
-			+ createQueryFormGroup("", "port", false, false, false)
-			+ createQueryFormGroup("", "minport", false, false, false)
-			+ createQueryFormGroup("", "maxport", false, false, false);
-
-		$("#query-form-groups").html(content);
+		$("#query-form-groups").html(html);
 	}
-
-	function renderStaticContents() {
-		renderQueryFormGroups();
-	}
-
-	//function getUrlWithInodePath(inodePath) {
-	//	return "http://slave01:8000/dataservice/v1/list" + getQuery(inodePath);
-	//}
 
 	function getQuery() {
+		const QUERIES = [
+			{parentName: "", name: "id"},
+			{parentName: "", name: "domain"},
+			{parentName: "", name: "user"},
+			{parentName: "", name: "password"},
+			{parentName: "", name: "host"},
+			{parentName: "", name: "port"},
+			{parentName: "", name: "minport"},
+			{parentName: "", name: "maxport"}
+		];
 		const LENGTH = QUERIES.length;
-		var query = "";
-		var isFirstQuery = true, isInSubQuery = false;
+
+		let query = "";
+		let isFirstQuery = true, isInSubQuery = false;
 		for (let i = 0; i < LENGTH; ++i) {
 			let element = QUERIES[i];
 			let isSubQuery = (element.parentName !== "");
@@ -74,9 +64,8 @@
 		$("#alert-panel").hide();
 
 		if (url == "button.send") {
-			//url = "http://" + window.location.host + "/dataservice/v1/access?" + getQuery();
-			url = "http://localhost:8000/dataservice/v1/deletemapping" + getQuery();
-			//url = "http://" + $("#text-host").val() + ":" + $("#number-port").val() + "/dataservice/v1/access?" + getQuery();
+			url = "http://" + window.location.hostname +
+				":8000/dataservice/v1/deletemapping" + getQuery();
 		}
 
 		window.location.hash = url;
@@ -97,10 +86,6 @@
 						null // port
 					],
 					"deferRender": true,
-					//"scrollX": true,
-					//"autoWidth": true
-
-					//"order": [[ 6, "asc" ]]
 				});
 			});
 		}).error(function(jqxhr, text, err) {
@@ -125,22 +110,12 @@
 		});
 	}
 
-	//function refillInputFieldsByURL(url) {
-
 	function initialize() {
-		renderStaticContents();
+		createQueryFormGroups();
 
 		// compile and register Dust.js
 		dust.loadSource(dust.compile($('#tmpl-response').html(), 'response'));
-
-		//var url = window.location.hash.slice(1);
-		//refreshResponseTable(url);
 	}
-
-	//$(window).bind('hashchange', function () {
-	//	var url = decodeURIComponent(window.location.hash.slice(1));
-	//	refreshResponseTable(url);
-	//});
 
 	$("#button-send").click(function () {
 		refreshResponseTable("button.send");

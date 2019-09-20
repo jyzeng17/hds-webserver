@@ -1,30 +1,12 @@
 (function() {
 	"use strict";
 
-	const QUERIES = [
-	];
-
-	function renderQueryFormGroups() {
-		//createQueryFormGroup(parentName, name, isHidden, isRequired, isProtocolButtonGroup)
-		var content = '';
-
-		$("#query-form-groups").html(content);
-	}
-
-	function renderStaticContents() {
-		renderQueryFormGroups();
-	}
-
-	//function getUrlWithInodePath(inodePath) {
-	//	return "http://slave01:8000/dataservice/v1/list" + getQuery(inodePath);
-	//}
-
-	var loadingReturn;
+	let loadingReturn;
 
 	function format (d) {
-		var host = d[0];
-		var operation;
-		var returned = '';
+		let host = d[0];
+		let operation;
+		let returned = '';
 
 		for (let i = 0; i < loadingReturn.length; ++i) {
 			if (loadingReturn[i]['host'] === host) {
@@ -73,9 +55,8 @@
 	function refreshResponseTable(url) {
 		$("#alert-panel").hide();
 
-			//url = "http://" + window.location.host + "/dataservice/v1/access?" + getQuery();
-			url = "http://localhost:8000/dataservice/v1/loading";
-			//url = "http://" + $("#text-host").val() + ":" + $("#number-port").val() + "/dataservice/v1/access?" + getQuery();
+		url = "http://" + window.location.hostname +
+			":8000/dataservice/v1/loading";
 
 		window.location.hash = url;
 
@@ -87,7 +68,7 @@
 
 				$('#result-table').html(out);
 
-				var table = $('#table-response').DataTable( {
+				let table = $('#table-response').DataTable( {
 					'lengthMenu': [ [25, 50, 100, -1], [25, 50, 100, "All"] ],
 					'columns': [
 						null, // host
@@ -102,12 +83,12 @@
 
 				//// Add event listener for opening and closing details
 				$('#table-response tbody').on('click', 'td.operations-control', function () {
-					var span = $(this).find("span");
+					let span = $(this).find("span");
 					span.toggleClass('glyphicon-chevron-down');
 					span.toggleClass('glyphicon-chevron-up');
 
-					var tr = $(this).closest('tr');
-					var row = table.row( tr );
+					let tr = $(this).closest('tr');
+					let row = table.row( tr );
 
 					if ( row.child.isShown() ) {
 						// This row is already open - close it
@@ -143,22 +124,13 @@
 		});
 	}
 
-	//function refillInputFieldsByURL(url) {
-
 	function initialize() {
-		renderStaticContents();
-
 		// compile and register Dust.js
 		dust.loadSource(dust.compile($('#tmpl-response').html(), 'response'));
 
-		var url = window.location.hash.slice(1);
+		let url = window.location.hash.slice(1);
 		refreshResponseTable(url);
 	}
-
-	//$(window).bind('hashchange', function () {
-	//	var url = decodeURIComponent(window.location.hash.slice(1));
-	//	refreshResponseTable(url);
-	//});
 
 	$("#button-send").click(function () {
 		refreshResponseTable("button.send");
